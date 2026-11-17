@@ -1,0 +1,44 @@
+### Manual tests against the running app (./mvnw spring-boot:run)
+### Open in IntelliJ / VS Code (REST Client extension) and click "Send Request".
+
+### 1. Generate a quiz with the REAL AI (takes a few seconds)
+POST http://localhost:8084/api/quizzes/generate
+Content-Type: application/json
+
+{
+  "topic": "Java streams",
+  "difficulty": "MEDIUM",
+  "numberOfQuestions": 3
+}
+
+### 2. List all quizzes
+GET http://localhost:8084/api/quizzes
+
+### 3. Get one quiz (no correct answers shown)
+GET http://localhost:8084/api/quizzes/1
+
+### 4. Submit answers (one index 0-3 per question)
+POST http://localhost:8084/api/quizzes/1/submit
+Content-Type: application/json
+
+{
+  "answers": [0, 2, 1]
+}
+
+### 5. See previous attempts
+GET http://localhost:8084/api/quizzes/1/attempts
+
+### --- Error cases ---
+
+### 6. Invalid body -> 400
+POST http://localhost:8084/api/quizzes/generate
+Content-Type: application/json
+
+{
+  "topic": "",
+  "difficulty": "MEDIUM",
+  "numberOfQuestions": 20
+}
+
+### 7. Unknown quiz -> 404
+GET http://localhost:8084/api/quizzes/9999
